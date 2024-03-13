@@ -22,7 +22,6 @@ function MainNav() {
         )
       }
     </span>
-    
   )
 }
 
