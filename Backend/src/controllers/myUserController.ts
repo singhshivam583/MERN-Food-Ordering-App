@@ -21,6 +21,16 @@ const createCurrentUser = async(req:Request, res:Response) =>{
     }
 };
 
+const updateCurrentUser = async(req:Request, res:Response)=>{
+    try {
+        
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({message:"Error Updating User"})
+    }
+}
+
 export default {
     createCurrentUser,
+    updateCurrentUser,
 };
