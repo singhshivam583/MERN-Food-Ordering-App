@@ -23,4 +23,4 @@ function MobileNavLinks() {
   )
 }
 
-export default MobileNavLinks
+export default MobileNavLinks;

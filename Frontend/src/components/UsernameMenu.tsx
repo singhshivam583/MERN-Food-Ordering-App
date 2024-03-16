@@ -14,7 +14,7 @@ function UsernameMenu() {
             {user?.email}
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-            <DropdownMenuItem>
+            <DropdownMenuItem className="m-2">
                 <Link to={'/user-profile'} className="font-bold hover:text-orange-500">
                     User Profile
                 </Link>

@@ -33,7 +33,7 @@ export const jwtParse = async(
 
   try {
     const decodedUser = jwt.decode(token) as jwt.JwtPayload;
-    console.log(decodedUser)
+    // console.log(decodedUser)
     const auth0Id = decodedUser.sub
 
     const user = await User.findOne({auth0Id})
@@ -49,6 +49,5 @@ export const jwtParse = async(
   } catch (error) {
     return res.sendStatus(401);
   }
-
 
 }
