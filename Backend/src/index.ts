@@ -12,6 +12,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.get("/", (req: Request , res :Response)=>{
+    res.send({message:"Everything is Ok!"})
+});
+
 app.use("/api/my/user", myUserRoute)
 app.listen(7000, ()=> {
     console.log('server running at localhost:7000')
