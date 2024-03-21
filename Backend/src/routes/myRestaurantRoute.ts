@@ -14,7 +14,7 @@ const upload = multer({
     },
 });
 
-router.post("/", jwtCheck, jwtParse, upload.single("imageFile"), myRestaurantController.createMyRestaurant);
+router.post("/", jwtCheck, jwtParse,validateMyRestaurantRequest, upload.single("imageFile"), myRestaurantController.createMyRestaurant);
 
 
 export default router;

@@ -19,6 +19,11 @@ function UsernameMenu() {
                     User Profile
                 </Link>
             </DropdownMenuItem>
+            <DropdownMenuItem className="m-2">
+                <Link to={'/manage-restaurant'} className="font-bold hover:text-orange-500">
+                    Manage Restaurant
+                </Link>
+            </DropdownMenuItem>
             <Separator/>
             <DropdownMenuItem>
                 <Button
