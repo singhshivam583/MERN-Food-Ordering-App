@@ -10,7 +10,7 @@ const handleValidationErrors = async (
 
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
-        return res.status(400).json({errors: errors.array()});
+        return res.status(400).json({validationErrors: errors.array()});
     }
     next();
 }
@@ -42,10 +42,6 @@ export const validateMyRestaurantRequest = [
         .isString()
         .notEmpty()
         .withMessage("Name is required"),
-    body("deliveryPrice")
-        .isString()
-        .notEmpty()
-        .withMessage("AddressLine1 is required"),
     body("city")
         .isString()
         .notEmpty()

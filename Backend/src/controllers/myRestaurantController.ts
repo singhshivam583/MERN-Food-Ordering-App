@@ -5,6 +5,10 @@ import cloudinary from 'cloudinary';
 import mongoose from "mongoose";
 
 
+const getMyResutaurant = async(req:Request , res :Response) =>{
+
+}
+
 const createMyRestaurant = async(req:Request, res:Response) => {
     try {
         const existingRestaurant = await Restaurant.findOne({user:req.userId});
@@ -43,4 +47,6 @@ const createMyRestaurant = async(req:Request, res:Response) => {
 
 export default {
     createMyRestaurant,
+    getMyResutaurant,
+    
 }

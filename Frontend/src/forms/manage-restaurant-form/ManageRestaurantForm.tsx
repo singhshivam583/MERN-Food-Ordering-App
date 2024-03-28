@@ -5,6 +5,10 @@ import { z } from "zod";
 import DetailsSection from "./DetailsSection";
 import CuisineSection from "./CuisineSection";
 import { Separator } from "@/components/ui/separator";
+import MenuSection from "./MenuSection";
+import ImageSection from "./ImageSection";
+import LoadingButton from "@/components/LoadingButton";
+import { Button } from "@/components/ui/button";
 
 const formSchema = z.object({
     restaurantName: z.string({
@@ -32,7 +36,7 @@ const formSchema = z.object({
             price: z.coerce.number().min(1, 'menuItem price is required')
         })
     ),
-    imagefile: z.instanceof(File, {
+    imageFile: z.instanceof(File, {
         message: 'image file is required'
     }),
 });
@@ -55,7 +59,22 @@ function ManageRestaurantForm({onSave, isLoading}: Props) {
 
     const onSubmit = (FormDataJson:restaurantFormData) => {
         // convert formdatajson to a new FormData object
+        const formData = new FormData();
 
+        formData.append("restaurantName", FormDataJson.restaurantName);
+        formData.append("city", FormDataJson.city);
+        formData.append("country", FormDataJson.country);
+        formData.append("deliveryPrice", FormDataJson.deliveryPrice.toString());
+        formData.append("estimatedDeliveryTime", FormDataJson.estimatedDeliveryTime.toString());
+        FormDataJson.cuisines.forEach((cuisine, index) => {
+            formData.append(`cuisines[${index}]`, cuisine);
+        });
+        FormDataJson.menuItems.forEach((menuItem, index) => {
+            formData.append(`menuItems[${index}][name]`, menuItem.name);
+            formData.append(`menuItems[${index}][price]`, menuItem.price.toString());
+        });
+        formData.append('imageFile',FormDataJson.imageFile);
+        onSave(formData);
     } 
 
   return (
@@ -64,6 +83,11 @@ function ManageRestaurantForm({onSave, isLoading}: Props) {
             <DetailsSection/>
             <Separator />
             <CuisineSection/>
+            <Separator/>
+            <MenuSection/>
+            <Separator/>
+            <ImageSection/>
+            {isLoading ? <LoadingButton/> : <Button type="submit">Submit</Button>}
         </form>
     </Form>
   )
