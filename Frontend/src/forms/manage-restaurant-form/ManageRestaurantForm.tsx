@@ -93,7 +93,7 @@ function ManageRestaurantForm({ restaurant, onSave, isLoading }: Props) {
             return;
         }
 
-        const deliveryPriceFormatted = parseInt(restaurant.deliveryPrice);
+        const deliveryPriceFormatted = restaurant.deliveryPrice;
         const menuItemsFormatted = restaurant.menuItems;
 
         const updatedRestaurant = {
