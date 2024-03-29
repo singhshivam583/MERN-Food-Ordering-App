@@ -5,6 +5,38 @@ import { Restaurant } from "../types"
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+export const useGetMyRestaurant = () => {
+
+    const { getAccessTokenSilently } = useAuth0();
+
+    const getMyRestaurantRequest = async(): Promise<Restaurant> => {
+        const accessToken = await getAccessTokenSilently();
+
+        const response = await fetch(`${API_BASE_URL}/api/my/restaurant`,{
+            method:"GET",
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        if(!response.ok) throw new Error("Could not create restaurant");
+
+        return response.json()
+    };
+
+    const {
+        data: restaurant, 
+        isLoading, 
+        error
+    } = useQuery('fetchMyRestaurant', getMyRestaurantRequest);
+
+    if(error){
+        toast.error("Error while fetching data");
+    }
+
+    return { restaurant, isLoading };
+}
+
 export const useCreateMyRestaurant = () => {
     const { getAccessTokenSilently } = useAuth0();
 
@@ -35,8 +67,46 @@ export const useCreateMyRestaurant = () => {
         toast.success("Restaurant created")
     }
     if(error){
-        toast.error("Unable to update restaurant");
+        toast.error("Unable to create restaurant");
     }
 
     return {createRestaurant, isLoading};
 }
+
+export const useUpdateMyRestaurant = () => {
+    const {getAccessTokenSilently} = useAuth0();
+
+    const  updateMyRestaurantRequest = async(restaurantFormData: FormData): Promise<Restaurant> => {
+        const accessToken = await getAccessTokenSilently();
+
+        const response = await fetch(`${API_BASE_URL}/api/my/restaurant`, {
+            method: "PUT",
+            headers:{
+                Authorization: `Bearer ${accessToken}`,
+            },
+            body: restaurantFormData,
+        });
+
+        if(!response.ok) throw new Error("Could not create restaurant");
+
+        return response.json()
+    };
+
+    const {
+        mutate: updateRestaurant, 
+        isLoading, 
+        isSuccess, 
+        error
+    } = useMutation(updateMyRestaurantRequest);
+
+    if(isSuccess){
+        toast.success("Restaurant Updated Successfully")
+    }
+    if(error){
+        toast.error("Unable to update restaurant");
+    }
+
+    return {updateRestaurant, isLoading};
+
+}
+

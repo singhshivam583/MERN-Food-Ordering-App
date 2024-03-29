@@ -9,6 +9,8 @@ import MenuSection from "./MenuSection";
 import ImageSection from "./ImageSection";
 import LoadingButton from "@/components/LoadingButton";
 import { Button } from "@/components/ui/button";
+import { Restaurant } from "@/types";
+import { useEffect } from "react";
 
 const formSchema = z.object({
     restaurantName: z.string({
@@ -36,19 +38,23 @@ const formSchema = z.object({
             price: z.coerce.number().min(1, 'menuItem price is required')
         })
     ),
-    imageFile: z.instanceof(File, {
-        message: 'image file is required'
-    }),
-});
+    imageUrl: z.string().optional(),
+    imageFile: z.instanceof(File, {message: 'image file is required'}).optional(),
+
+}).refine((data) => data.imageUrl || data.imageFile , {
+    message: "Either image Url or image File must be Provided",
+    path:['imageFile'],
+    });
 
 type restaurantFormData = z.infer<typeof formSchema>
 
 type Props = {
+    restaurant?: Restaurant;
     onSave: (restaurantFormData:FormData) => void;
     isLoading: boolean;
 }
 
-function ManageRestaurantForm({onSave, isLoading}: Props) {
+function ManageRestaurantForm({ restaurant, onSave, isLoading }: Props) {
     const form = useForm<restaurantFormData>({
         resolver: zodResolver(formSchema),
         defaultValues:{
@@ -74,8 +80,28 @@ function ManageRestaurantForm({onSave, isLoading}: Props) {
             formData.append(`menuItems[${index}][price]`, menuItem.price.toString());
         });
         formData.append('imageFile',FormDataJson.imageFile);
+
         onSave(formData);
-    } 
+    } ;
+
+    useEffect(() => {
+
+        if(!restaurant){
+            return;
+        }
+
+        const deliveryPriceFormatted = parseInt(restaurant.deliveryPrice);
+        const menuItemsFormatted = restaurant.menuItems;
+
+        const updatedRestaurant = {
+            ...restaurant,
+            deliveryPrice : deliveryPriceFormatted,
+            menuItems: menuItemsFormatted, 
+        };
+
+        form.reset(updatedRestaurant);
+
+    },[form, restaurant])
 
   return (
     <Form {...form}>
