@@ -44,7 +44,7 @@ const formSchema = z.object({
 }).refine((data) => data.imageUrl || data.imageFile , {
     message: "Either image Url or image File must be Provided",
     path:['imageFile'],
-    });
+});
 
 type restaurantFormData = z.infer<typeof formSchema>
 
@@ -79,7 +79,10 @@ function ManageRestaurantForm({ restaurant, onSave, isLoading }: Props) {
             formData.append(`menuItems[${index}][name]`, menuItem.name);
             formData.append(`menuItems[${index}][price]`, menuItem.price.toString());
         });
-        formData.append('imageFile',FormDataJson.imageFile);
+
+        if(FormDataJson.imageFile){
+            formData.append('imageFile',FormDataJson.imageFile);
+        }
 
         onSave(formData);
     } ;
