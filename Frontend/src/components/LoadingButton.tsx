@@ -11,4 +11,4 @@ function LoadingButton() {
   )
 }
 
-export default LoadingButton
+export default LoadingButton;

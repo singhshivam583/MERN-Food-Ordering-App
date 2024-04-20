@@ -1,5 +1,5 @@
 import { useCreateMyRestaurant, useGetMyRestaurant, useUpdateMyRestaurant } from "@/api/myRestaurantApi";
-import ManageRestaurantForm from "@/forms/manage-restaurant-form/ManageRestaurantForm"
+import ManageRestaurantForm from "@/forms/manage-restaurant-form/ManageRestaurantForm";
 
 function ManageRestaurantPage() {
   const { createRestaurant, isLoading: isCreateLoading} = useCreateMyRestaurant();
